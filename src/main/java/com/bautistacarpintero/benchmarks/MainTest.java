@@ -1,4 +1,4 @@
-package com.bautistacarpintero.tests;
+package com.bautistacarpintero.benchmarks;
 
 import com.bautistacarpintero.utilities.Ranking;
 import com.bautistacarpintero.utilities.RankingElem;

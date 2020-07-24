@@ -1,4 +1,4 @@
-package com.bautistacarpintero.tests;
+package com.bautistacarpintero.benchmarks;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

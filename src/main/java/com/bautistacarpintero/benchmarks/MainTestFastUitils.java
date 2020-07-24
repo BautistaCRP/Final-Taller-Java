@@ -1,4 +1,4 @@
-package com.bautistacarpintero.tests;
+package com.bautistacarpintero.benchmarks;
 
 import com.bautistacarpintero.solutions.IProblemSolver;
 import com.bautistacarpintero.solutions.SolutionFastUtilsMapFrequencies;
