@@ -14,7 +14,6 @@ import tech.tablesaw.api.Table;
 import java.io.IOException;
 
 import static tech.tablesaw.aggregate.AggregateFunctions.median;
-import static tech.tablesaw.aggregate.AggregateFunctions.mean;
 
 
 public class SizesBenchmarkChart extends ApplicationFrame {
@@ -45,23 +44,23 @@ public class SizesBenchmarkChart extends ApplicationFrame {
         for (Row row : mediansTable) {
 
             dataset.addValue(
-                    row.getDouble("Mean [HashMapIndexes]"),
+                    row.getDouble("Median [HashMapIndexes]"),
                     "HashMapIndexes",
                     new Integer(row.getInt("Problem Size")));
 
 
             dataset.addValue(
-                    row.getDouble("Mean [HashMapIndexes2]"),
+                    row.getDouble("Median [HashMapIndexes2]"),
                     "HashMapIndexes2",
                     new Integer(row.getInt("Problem Size")));
 
             dataset.addValue(
-                    row.getDouble("Mean [HashMapFrequencies]"),
+                    row.getDouble("Median [HashMapFrequencies]"),
                     "HashMapFrequencies",
                     new Integer(row.getInt("Problem Size")));
 
             dataset.addValue(
-                    row.getDouble("Mean [FastUtilsMap]"),
+                    row.getDouble("Median [FastUtilsMap]"),
                     "FastUtilsMap",
                     new Integer(row.getInt("Problem Size")));
 
@@ -81,7 +80,7 @@ public class SizesBenchmarkChart extends ApplicationFrame {
                     "HashMapIndexes2",
                     "HashMapFrequencies",
                     "FastUtilsMap",
-                    mean)
+                    median)
                     .by("Problem Size");
 
             System.out.println(mediansTable);
