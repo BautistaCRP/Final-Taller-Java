@@ -138,7 +138,7 @@ public class Benchmarks {
 
                     // Tercer etapa - Calculo de promedios de la exe y guardado
                     hashMapIndexesAvg = hashMapIndexesAvg / (double) executions;
-                    hashMapIndexes2Avg = hashMapIndexesAvg / (double) executions;
+                    hashMapIndexes2Avg = hashMapIndexes2Avg / (double) executions;
                     hashMapFrequenciesAvg = hashMapFrequenciesAvg / (double) executions;
                     fastUtilsMapFrequenciesAvg = fastUtilsMapFrequenciesAvg / (double) executions;
 
@@ -323,7 +323,7 @@ public class Benchmarks {
 
                     // Tercer etapa - Calculo de promedios de la exe y guardado
                     hashMapIndexesAvg = hashMapIndexesAvg / (double) executions;
-                    hashMapIndexes2Avg = hashMapIndexesAvg / (double) executions;
+                    hashMapIndexes2Avg = hashMapIndexes2Avg / (double) executions;
                     hashMapFrequenciesAvg = hashMapFrequenciesAvg / (double) executions;
                     fastUtilsMapFrequenciesAvg = fastUtilsMapFrequenciesAvg / (double) executions;
 

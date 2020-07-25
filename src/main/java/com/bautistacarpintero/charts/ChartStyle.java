@@ -2,7 +2,10 @@ package com.bautistacarpintero.charts;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.ui.RectangleInsets;
 
 import java.awt.*;
@@ -13,7 +16,9 @@ public class ChartStyle {
 
     public static void makeItLookGood(JFreeChart chart) {
 
+        fixAxis(chart);
         applyChartFont(chart);
+        addMargin(chart);
 
         List<Color> colors = new ArrayList<>();
         colors.add(new Color(54, 120, 210));
@@ -42,7 +47,6 @@ public class ChartStyle {
         categoryPlot.setRangeGridlinePaint(Color.gray);
         categoryPlot.setDomainGridlinePaint(Color.gray);
 
-        addMargin(chart);
     }
 
     private static void addMargin(JFreeChart chart) {
@@ -73,6 +77,21 @@ public class ChartStyle {
 
 
         chartTheme.apply(chart);
+    }
+
+
+    private static void fixAxis(JFreeChart chart){
+        CategoryPlot plot = chart.getCategoryPlot();
+        ValueAxis oldAxis = plot.getRangeAxis();
+        LogAxis yAxis = new LogAxis(oldAxis.getLabel());
+        yAxis.setAutoTickUnitSelection(false);
+        yAxis.setMinorTickCount(9);  // changing the integer argument has no effect on chart
+        yAxis.setBase(10);
+        yAxis.setTickMarksVisible(true);
+        yAxis.setAxisLineVisible(true);
+        yAxis.setAutoRange(true);
+
+        plot.setRangeAxis(yAxis);
     }
 
 
