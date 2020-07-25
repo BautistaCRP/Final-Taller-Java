@@ -6,7 +6,7 @@ import com.bautistacarpintero.utilities.RankingElem;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainTest {
+public class RankingTest {
 
 
     public static void main(String[] args) {
@@ -28,7 +28,6 @@ public class MainTest {
             for(RankingElem elem : outElems){
                 elem.setTime(random.nextInt(10));
             }
-//            ranking.updateScores();
 
             System.out.println(ranking.getTimes());
             System.out.println(ranking.getScores());

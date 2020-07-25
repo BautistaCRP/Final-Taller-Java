@@ -173,6 +173,7 @@ public class Benchmarks {
 
                 }
 
+                writer.flush();
             }
 
 
@@ -356,6 +357,7 @@ public class Benchmarks {
 
                 }
 
+                writer.flush();
             }
 
 
