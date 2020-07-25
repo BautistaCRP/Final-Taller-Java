@@ -1,5 +1,8 @@
 package com.bautistacarpintero.benchmarks;
 
+import com.bautistacarpintero.solutions.*;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SizesBenchmarkTest {
@@ -15,16 +18,25 @@ public class SizesBenchmarkTest {
         long totalStart = System.currentTimeMillis();
 
         int[] problemSizes = new int[]{
-                50_000,
-                100_000,
-                250_000,
-                500_000,
-                1_000_000,
-                5_000_000
+                50_000
         };
 
+        ArrayList<IProblemSolver> solvers = new ArrayList<>();
+        ArrayList<String> solverNames = new ArrayList<>();
 
-        Benchmarks.sizesBenchmark(100, 5, 5, problemSizes);
+        solvers.add(new SolutionHashMapIndexes());
+        solverNames.add("HashMapIndexes");
+
+        solvers.add(new SolutionHashMapIndexes2());
+        solverNames.add("HashMapIndexes2");
+
+        solvers.add(new SolutionHashMapFrequencies());
+        solverNames.add("HashMapFrequencies");
+
+        solvers.add(new SolutionFastUtilsMapFrequencies());
+        solverNames.add("FastUtilsMap");
+
+        Benchmarks.sizesBenchmark(100, 5, 5, problemSizes, solvers, solverNames);
 
 
         System.out.println();

@@ -8,41 +8,38 @@ import com.bautistacarpintero.utilities.RankingElem;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Benchmarks {
 
     private static final String RESOURCES_PATH = "src/main/resources/";
 
-    public static void sizesBenchmark(int problems, int warmup, int executions, int[] problemSizes) {
+    public static void sizesBenchmark(int problems, int warmup, int executions, int[] problemSizes, List<IProblemSolver> solvers, List<String> solversNames) {
 
         try {
             BufferedWriter writer = new BufferedWriter(
                     new FileWriter(RESOURCES_PATH + "sizesBenchmark.csv"));
 
 
-            String header = "Problem Size, Solutions, HashMapIndexes, HashMapIndexes2, HashMapFrequencies, FastUtilsMap\n";
+            String header = "Problem Size, Solutions";
+            for (String solverName : solversNames) {
+                header = header+", "+solverName;
+            }
+            header += "\n";
             writer.write(header);
-
-            // Solutions
-            SolutionHashMapIndexes hashMapIndexes = new SolutionHashMapIndexes();
-            SolutionHashMapIndexes2 hashMapIndexes2 = new SolutionHashMapIndexes2();
-            SolutionHashMapFrequencies hashMapFrequencies = new SolutionHashMapFrequencies();
-            SolutionFastUtilsMapFrequencies fastUtilsMapFrequencies = new SolutionFastUtilsMapFrequencies();
 
 
             // Ranking - Es para ver en tiempo de exe un ranking de como van las ejecuciones (ganan puntaje en funcion de los tiempos)
 
-            RankingElem hashMapIndexesRank = new RankingElem("    HashMapIndexes Solution");
-            RankingElem hashMapIndexes2Rank = new RankingElem("   HashMapIndexes2 Solution");
-            RankingElem hashMapFrequenciesRank = new RankingElem("HashMapFrequencies Solution");
-            RankingElem fastUtilsMapRank = new RankingElem("      FastUtilsMap Solution");
-
             Ranking ranking = new Ranking();
-            ranking.addElem(hashMapIndexesRank);
-            ranking.addElem(hashMapIndexes2Rank);
-            ranking.addElem(hashMapFrequenciesRank);
-            ranking.addElem(fastUtilsMapRank);
+            ArrayList<RankingElem> rankingElems = new ArrayList<>();
+
+            for(String solverName : solversNames){
+                RankingElem elem = new RankingElem(solverName);
+                ranking.addElem(elem);
+                rankingElems.add(elem);
+            }
 
             ProblemGen problemGen = new ProblemGen();
 
@@ -50,12 +47,13 @@ public class Benchmarks {
 
                 int target;
                 int[] data;
-                long solutions = -1;
+
 
                 for (int i = 0; i < problems; i++) {
-                    problemGen.genRandomBoundedProblem(problemSize, problemSize*2);
+                    problemGen.genRandomBoundedProblem(problemSize, problemSize * 2);
                     target = problemGen.getTarget();
                     data = problemGen.getData();
+                    long solutions = -1;
 
                     System.out.println("Problem Size: " + problemSize + " - Problem: " + (i + 1) + "/" + problems);
 
@@ -65,33 +63,23 @@ public class Benchmarks {
                     for (int j = 0; j < warmup; j++) {
 
                         // Se ejecuntan las soluciones warmup cantidad de veces
-                        hashMapIndexes.isSumIn(data, target);
-                        System.gc();
-
-                        hashMapIndexes2.isSumIn(data, target);
-                        System.gc();
-
-                        hashMapFrequencies.isSumIn(data, target);
-                        System.gc();
-
-                        if (j != 0)
-                            fastUtilsMapFrequencies.isSumIn(data, target);
-                        else {
-                            List<IProblemSolver.Pair> pairs;
-                            pairs = fastUtilsMapFrequencies.isSumIn(data, target);
-                            solutions = pairs.size();
-
+                        for (IProblemSolver solver : solvers){
+                            if(solutions == -1) {
+                                List<IProblemSolver.Pair> pairs = solver.isSumIn(data, target);
+                                solutions = pairs.size();
+                            } else
+                                solver.isSumIn(data, target);
+                            System.gc();
                         }
-                        System.gc();
                     }
 
 
                     // Segunda etapa - Ejecucion
 
-                    double hashMapIndexesAvg = 0.0d;
-                    double hashMapIndexes2Avg = 0.0d;
-                    double hashMapFrequenciesAvg = 0.0d;
-                    double fastUtilsMapFrequenciesAvg = 0.0d;
+                    double[] avgs = new double[solvers.size()];
+                    for (int j = 0; j < avgs.length; j++) {
+                        avgs[j] = 0.0d;
+                    }
 
                     System.out.println("Execution Stage \n");
                     for (int j = 0; j < executions; j++) {
@@ -100,34 +88,15 @@ public class Benchmarks {
                         System.out.println("Problem Size: " + problemSize);
                         System.out.println("Solutions: " + solutions);
 
-                        hashMapIndexes.isSumIn(data, target);
-                        System.gc();
+                        for (int solverIndex = 0; solverIndex < solvers.size(); solverIndex++) {
+                            IProblemSolver solver = solvers.get(solverIndex);
+                            solver.isSumIn(data,target);
+                            System.gc();
 
-                        hashMapIndexes2.isSumIn(data, target);
-                        System.gc();
-
-                        hashMapFrequencies.isSumIn(data, target);
-                        System.gc();
-
-                        fastUtilsMapFrequencies.isSumIn(data, target);
-                        System.gc();
-
-                        long hashMapIndexesLastTime = hashMapIndexes.getLastTime();
-                        hashMapIndexesRank.setTime(hashMapIndexesLastTime);
-
-                        long hashMapIndexes2LastTime = hashMapIndexes2.getLastTime();
-                        hashMapIndexes2Rank.setTime(hashMapIndexes2LastTime);
-
-                        long hashMapFrequenciesLastTime = hashMapFrequencies.getLastTime();
-                        hashMapFrequenciesRank.setTime(hashMapFrequenciesLastTime);
-
-                        long fastUtilsMapFrequenciesLastTime = fastUtilsMapFrequencies.getLastTime();
-                        fastUtilsMapRank.setTime(fastUtilsMapFrequenciesLastTime);
-
-                        hashMapIndexesAvg += hashMapIndexesLastTime;
-                        hashMapIndexes2Avg += hashMapIndexes2LastTime;
-                        hashMapFrequenciesAvg += hashMapFrequenciesLastTime;
-                        fastUtilsMapFrequenciesAvg += fastUtilsMapFrequenciesLastTime;
+                            long lastTime = solver.getLastTime();
+                            rankingElems.get(solverIndex).setTime(lastTime);
+                            avgs[solverIndex] += lastTime;
+                        }
 
                         System.out.println();
                         System.out.println(ranking.getTimes());
@@ -137,40 +106,35 @@ public class Benchmarks {
                     }
 
                     // Tercer etapa - Calculo de promedios de la exe y guardado
-                    hashMapIndexesAvg = hashMapIndexesAvg / (double) executions;
-                    hashMapIndexes2Avg = hashMapIndexes2Avg / (double) executions;
-                    hashMapFrequenciesAvg = hashMapFrequenciesAvg / (double) executions;
-                    fastUtilsMapFrequenciesAvg = fastUtilsMapFrequenciesAvg / (double) executions;
+
+                    for (int j = 0; j < avgs.length; j++) {
+                        avgs[j] = avgs[j] / (double) executions;
+                    }
 
                     StringBuilder builder = new StringBuilder();
                     builder
                             .append(problemSize)
                             .append(",")
-                            .append(solutions)
-                            .append(",")
-                            .append(hashMapIndexesAvg)
-                            .append(",")
-                            .append(hashMapIndexes2Avg)
-                            .append(",")
-                            .append(hashMapFrequenciesAvg)
-                            .append(",")
-                            .append(fastUtilsMapFrequenciesAvg)
-                            .append("\n");
+                            .append(solutions);
+
+                    for (int solverIndex = 0; solverIndex < solvers.size(); solverIndex++) {
+                        builder.append(",")
+                                .append(avgs[solverIndex]);
+                    }
+                    builder.append("\n");
 
                     writer.write(builder.toString());
                     System.out.println("Record Saved!");
                     System.out.println("\t -> Problem Size: " + problemSize);
                     System.out.println("\t -> Solutions: " + solutions);
-                    System.out.println("\t -> hashMapIndexesAvg: " + hashMapIndexesAvg);
-                    System.out.println("\t -> hashMapIndexes2Avg: " + hashMapIndexes2Avg);
-                    System.out.println("\t -> hashMapFrequenciesAvg: " + hashMapFrequenciesAvg);
-                    System.out.println("\t -> fastUtilsMapFrequenciesAvg: " + fastUtilsMapFrequenciesAvg);
+                    for (int solverIndex = 0; solverIndex < solvers.size(); solverIndex++) {
+                        System.out.println("\t -> "+solversNames.get(solverIndex)+": " + avgs[solverIndex]);
 
+                    }
 
                     System.out.println();
                     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     System.out.println();
-
                 }
 
                 writer.flush();
@@ -381,6 +345,5 @@ public class Benchmarks {
         }
 
     }
-
 
 }

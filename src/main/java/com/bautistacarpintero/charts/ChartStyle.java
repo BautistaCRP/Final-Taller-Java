@@ -16,7 +16,7 @@ public class ChartStyle {
 
     public static void makeItLookGood(JFreeChart chart) {
 
-//        fixAxis(chart);
+        fixAxis(chart);
         applyChartFont(chart);
         addMargin(chart);
 

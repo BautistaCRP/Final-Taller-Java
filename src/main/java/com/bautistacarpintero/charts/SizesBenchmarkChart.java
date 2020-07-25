@@ -71,6 +71,8 @@ public class SizesBenchmarkChart extends ApplicationFrame {
 
     private static final String RESOURCES_PATH = "src/main/resources/";
 
+
+    // TODO Ver si puedo poner dos graficos con las dos escalas
     public static void main(String[] args) {
         try {
             Table sizesBenchmarkTable = Table.read().csv(RESOURCES_PATH + "sizesBenchmark.csv");
