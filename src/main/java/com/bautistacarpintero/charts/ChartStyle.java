@@ -14,11 +14,11 @@ import java.util.List;
 
 public class ChartStyle {
 
-    public static void makeItLookGood(JFreeChart chart) {
+    public static void makeItLookGoodSizeChart(JFreeChart sizeChart) {
 
-        fixAxis(chart);
-        applyChartFont(chart);
-        addMargin(chart);
+        fixAxis(sizeChart);
+        applyChartFont(sizeChart);
+        addMargin(sizeChart);
 
         List<Color> colors = new ArrayList<>();
         colors.add(new Color(54, 120, 210));
@@ -32,10 +32,10 @@ public class ChartStyle {
         int bgColor = 242;
         int bgPlotColor = 252;
 
-        chart.setBackgroundPaint(new Color(bgColor, bgColor, bgColor));
-        chart.getPlot().setBackgroundPaint(new Color(bgPlotColor, bgPlotColor, bgPlotColor));
+        sizeChart.setBackgroundPaint(new Color(bgColor, bgColor, bgColor));
+        sizeChart.getPlot().setBackgroundPaint(new Color(bgPlotColor, bgPlotColor, bgPlotColor));
 
-        CategoryPlot categoryPlot = chart.getCategoryPlot();
+        CategoryPlot categoryPlot = sizeChart.getCategoryPlot();
         int seriesCount = categoryPlot.getCategories().size();
         for (int i = 0; i < seriesCount; i++) {
             categoryPlot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
@@ -46,6 +46,41 @@ public class ChartStyle {
         categoryPlot.setRangeGridlinesVisible(true);
         categoryPlot.setRangeGridlinePaint(Color.gray);
         categoryPlot.setDomainGridlinePaint(Color.gray);
+
+    }
+
+
+    public static void makeItLookGoodMemoryChart(JFreeChart sizeChart) {
+
+        applyChartFont(sizeChart);
+        addMargin(sizeChart);
+
+        List<Color> colors = new ArrayList<>();
+        colors.add(new Color(54, 120, 210));
+        colors.add(new Color(253, 133, 20));
+        colors.add(new Color(57, 173, 82));
+        colors.add(new Color(231, 32, 36));
+        colors.add(new Color(157, 84, 206));
+        colors.add(new Color(38, 229, 183));
+        colors.add(new Color(148, 139, 61));
+
+        int bgColor = 242;
+        int bgPlotColor = 252;
+
+        sizeChart.setBackgroundPaint(new Color(bgColor, bgColor, bgColor));
+        sizeChart.getPlot().setBackgroundPaint(new Color(bgPlotColor, bgPlotColor, bgPlotColor));
+
+        XYPlot xyPlot = sizeChart.getXYPlot();
+        int seriesCount = xyPlot.getSeriesCount();
+        for (int i = 0; i < seriesCount; i++) {
+            xyPlot.getRenderer().setSeriesStroke(i, new BasicStroke(2));
+            xyPlot.getRenderer().setSeriesPaint(i, colors.get(i % colors.size()));
+        }
+
+        xyPlot.setDomainGridlinesVisible(true);
+        xyPlot.setRangeGridlinesVisible(true);
+        xyPlot.setRangeGridlinePaint(Color.gray);
+        xyPlot.setDomainGridlinePaint(Color.gray);
 
     }
 

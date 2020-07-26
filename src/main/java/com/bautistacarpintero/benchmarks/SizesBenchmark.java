@@ -5,7 +5,7 @@ import com.bautistacarpintero.solutions.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class SizesBenchmarkTest {
+public class SizesBenchmark {
 
     public static void main(String[] args) {
 

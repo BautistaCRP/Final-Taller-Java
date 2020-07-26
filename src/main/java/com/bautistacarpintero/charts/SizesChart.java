@@ -16,11 +16,11 @@ import java.io.IOException;
 import static tech.tablesaw.aggregate.AggregateFunctions.median;
 
 
-public class SizesBenchmarkChart extends ApplicationFrame {
+public class SizesChart extends ApplicationFrame {
 
     private Table mediansTable;
 
-    public SizesBenchmarkChart(String applicationTitle, String chartTitle, Table mediansTable) {
+    public SizesChart(String applicationTitle, String chartTitle, Table mediansTable) {
         super(applicationTitle);
         this.mediansTable = mediansTable;
 
@@ -32,7 +32,7 @@ public class SizesBenchmarkChart extends ApplicationFrame {
                 true, true, false);
 
 
-        ChartStyle.makeItLookGood(lineChart);
+        ChartStyle.makeItLookGoodSizeChart(lineChart);
         ChartPanel chartPanel = new ChartPanel(lineChart);
         chartPanel.setPreferredSize(new java.awt.Dimension(700, 500));
         setContentPane(chartPanel);
@@ -88,7 +88,7 @@ public class SizesBenchmarkChart extends ApplicationFrame {
             System.out.println(mediansTable);
 
 
-            SizesBenchmarkChart chart = new SizesBenchmarkChart(
+            SizesChart chart = new SizesChart(
                     "Juan Bautista Carpintero - Final Taller Java",
                     "Medianas de los tiempos agrupados por size",
                     mediansTable);

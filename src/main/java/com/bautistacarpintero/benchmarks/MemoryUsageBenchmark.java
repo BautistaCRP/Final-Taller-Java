@@ -5,7 +5,7 @@ import com.bautistacarpintero.solutions.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MemoryUsageBenchmarkTest {
+public class MemoryUsageBenchmark {
 
     public static void main(String[] args) {
 
