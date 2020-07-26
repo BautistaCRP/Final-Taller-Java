@@ -163,6 +163,127 @@ public class Benchmarks {
     }
 
 
+
+    public static void memBenchmark(int problems, int[] bounds, int size, int executions, List<IProblemSolver> solvers, List<String> solversNames) {
+        try {
+            BufferedWriter writer = new BufferedWriter(
+                    new FileWriter(RESOURCES_PATH + "memBenchmark.csv"));
+
+
+            String header = "Bound, Solutions";
+            for (String solverName : solversNames) {
+                header = header+", "+solverName;
+            }
+            header += "\n";
+            writer.write(header);
+
+
+            ProblemGen problemGen = new ProblemGen();
+            int[] data;
+            int target;
+
+            double[] memTotal = new double[solvers.size()];
+            for (int i = 0; i < memTotal.length; i++) {
+                memTotal[i] = 0;
+            }
+
+            for(int bound : bounds){
+                for (int problem = 0; problem < problems; problem++) {
+                    problemGen.genRandomBoundedProblem(size,bound);
+                    data = problemGen.getData();
+                    target = problemGen.getTarget();
+
+                    System.out.println("------------------------------------------");
+                    System.out.println();
+                    System.out.println("Problem: "+problem+"/"+problems+" - Bound: "+bound);
+
+                    double[] memoryUsages = new double[solvers.size()];
+                    int solutions = -1;
+
+                    for (int solverIndex = 0; solverIndex < solvers.size(); solverIndex++) {
+
+                        IProblemSolver solver = solvers.get(solverIndex);
+                        double memoryUsageAVG = 0;
+
+                        for (int execution = 0; execution < executions; execution++) {
+
+                            long memoryBefore = getUsedMemory();
+                            List<IProblemSolver.Pair> pairs = solver.isSumIn(data,target);
+                            long memoryUsage = getUsedMemory() - memoryBefore;
+
+                            if(solutions == -1) {
+                                solutions = pairs.size();
+                                System.out.println("Solutions: "+solutions);
+                                System.out.println("Memory Usage: ");
+                            }
+
+                            if(memoryUsage < 0){
+                                // Paso el gc y termine con menos uso de mem con el que arranque
+                                // descarto esta ejecucion y la realizo denuevo
+                                execution--;
+
+                            } else {
+                                memoryUsageAVG += memoryUsage;
+                            }
+
+                            System.runFinalization();
+                            System.gc();
+
+                        } // for execution
+
+                        memoryUsageAVG = memoryUsageAVG / (double) executions;
+                        memoryUsages[solverIndex] = memoryUsageAVG;
+                        System.out.println(solversNames.get(solverIndex)+": "+memoryUsageAVG);
+
+
+                    } // for solver
+
+
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(bound)
+                            .append(",")
+                            .append(solutions);
+
+                    for(double memoryUsage : memoryUsages){
+                        builder.append(",")
+                                .append(memoryUsage);
+                    }
+                    builder.append("\n");
+
+                    writer.write(builder.toString());
+                    System.out.println();
+
+                    for (int i = 0; i < memoryUsages.length; i++) {
+                        memTotal[i] += memoryUsages[i];
+                    }
+
+                } // for problem
+                writer.flush();
+
+            } // for bound
+
+            writer.flush();
+            writer.close();
+
+
+            System.out.println("---------------------------------------------------------------");
+            System.out.println();
+            System.out.println();
+            System.out.println("Finish!");
+
+            for (int solverIndex = 0; solverIndex < solvers.size(); solverIndex++) {
+                System.out.println(solversNames.get(solverIndex)+": "+memTotal[solverIndex]);
+            }
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //TODO eliminar estooo ⬇⬇⬇
     public static void boundsBenchmark(int problems, int warmup, int executions, int[] bounds) {
 
         try {
@@ -344,6 +465,10 @@ public class Benchmarks {
              */
         }
 
+    }
+
+    private static long getUsedMemory(){
+        return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
     }
 
 }
