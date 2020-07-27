@@ -11,6 +11,7 @@ import org.jfree.ui.RefineryUtilities;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
+import java.io.File;
 import java.io.IOException;
 
 import static tech.tablesaw.aggregate.AggregateFunctions.median;
@@ -20,20 +21,27 @@ public class TimesChart extends ApplicationFrame {
 
     private Table mediansTable;
 
-    public TimesChart(String applicationTitle, String chartTitle, Table mediansTable) {
+    public TimesChart(String applicationTitle, String chartTitle, Table mediansTable, boolean logScale) {
         super(applicationTitle);
         this.mediansTable = mediansTable;
 
+        String valueAxisLabel = "Time in ms";
+
+        if (logScale)
+            valueAxisLabel = "Time in ms (logarithmic scale)";
+
         JFreeChart lineChart = ChartFactory.createLineChart(
                 chartTitle,
-                "Sizes", "Time in ms",
+                "Problem Size's", valueAxisLabel,
                 createDataset(),
                 PlotOrientation.VERTICAL,
                 true, true, false);
 
 
-        ChartStyle.makeItLookGoodSizeChart(lineChart);
+        ChartStyle.makeItLookGoodSizeChart(lineChart, logScale);
         ChartPanel chartPanel = new ChartPanel(lineChart);
+        chartPanel.setMouseWheelEnabled(true);
+
         chartPanel.setPreferredSize(new java.awt.Dimension(700, 500));
         setContentPane(chartPanel);
     }
@@ -72,9 +80,19 @@ public class TimesChart extends ApplicationFrame {
     private static final String RESOURCES_PATH = "src/main/resources/";
 
 
-    // TODO Ver si puedo poner dos graficos con las dos escalas
     public static void main(String[] args) {
+
+        String filePath = "timesBenchmark.csv";
+        if (args.length > 0) {
+            String path = args[0];
+            File file = new File(path);
+            if (file.exists()) {
+                filePath = path;
+            }
+        }
+
         try {
+//            Table sizesBenchmarkTable = Table.read().csv(filePath);
             Table sizesBenchmarkTable = Table.read().csv(RESOURCES_PATH + "timesBenchmark.csv");
 
             Table mediansTable = sizesBenchmarkTable.summarize(
@@ -90,8 +108,9 @@ public class TimesChart extends ApplicationFrame {
 
             TimesChart chart = new TimesChart(
                     "Juan Bautista Carpintero - Final Taller Java",
-                    "Medianas de los tiempos agrupados por size",
-                    mediansTable);
+                    "Medianas de los tiempos, agrupados por el tamaño de los problemas",
+                    mediansTable,
+                    false);
 
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);

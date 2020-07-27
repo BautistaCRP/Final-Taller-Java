@@ -14,9 +14,10 @@ import java.util.List;
 
 public class ChartStyle {
 
-    public static void makeItLookGoodSizeChart(JFreeChart sizeChart) {
+    public static void makeItLookGoodSizeChart(JFreeChart sizeChart, boolean logScale) {
 
-//        fixAxis(sizeChart);
+        if (logScale)
+            fixAxis(sizeChart);
         applyChartFont(sizeChart);
         addMargin(sizeChart);
 
@@ -115,7 +116,7 @@ public class ChartStyle {
     }
 
 
-    private static void fixAxis(JFreeChart chart){
+    private static void fixAxis(JFreeChart chart) {
         CategoryPlot plot = chart.getCategoryPlot();
         ValueAxis oldAxis = plot.getRangeAxis();
         LogAxis yAxis = new LogAxis(oldAxis.getLabel());

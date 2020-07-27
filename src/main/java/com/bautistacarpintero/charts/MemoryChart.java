@@ -12,6 +12,7 @@ import org.jfree.ui.RefineryUtilities;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class MemoryChart extends ApplicationFrame {
 
         ChartStyle.makeItLookGoodMemoryChart(lineChart);
         ChartPanel chartPanel = new ChartPanel(lineChart);
+        chartPanel.setMouseWheelEnabled(true);
+
         chartPanel.setPreferredSize(new java.awt.Dimension(700, 500));
         setContentPane(chartPanel);
 
@@ -50,14 +53,14 @@ public class MemoryChart extends ApplicationFrame {
         seriesNames.remove("Solutions");
 
         List<XYSeries> seriesList = new ArrayList<>();
-        for(String name : seriesNames){
+        for (String name : seriesNames) {
             XYSeries series = new XYSeries(name);
             seriesList.add(series);
             dataset.addSeries(series);
         }
 
-        for(Row row : memoryTable){
-            for (int seriesIndex = 0; seriesIndex < seriesList.size() ; seriesIndex++) {
+        for (Row row : memoryTable) {
+            for (int seriesIndex = 0; seriesIndex < seriesList.size(); seriesIndex++) {
                 seriesList.get(seriesIndex).add(row.getInt("Solutions"), row.getDouble(seriesNames.get(seriesIndex)));
 
             }
@@ -74,11 +77,19 @@ public class MemoryChart extends ApplicationFrame {
 
     public static void main(String[] args) {
 
+        String filePath = "memBenchmark.csv";
+        if (args.length > 0) {
+            String path = args[0];
+            File file = new File(path);
+            if (file.exists()) {
+                filePath = path;
+            }
+        }
 
         try {
+//            Table memoryTable = Table.read().csv(filePath);
             Table memoryTable = Table.read().csv(RESOURCES_PATH + "memBenchmark.csv");
             memoryTable = memoryTable.sortAscendingOn("Solutions");
-
 
 
             MemoryChart chart = new MemoryChart(
@@ -94,8 +105,6 @@ public class MemoryChart extends ApplicationFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
 
     }
