@@ -13,12 +13,12 @@ public class SolutionHashMapFrequencies implements IProblemSolver {
     public List<Pair> isSumIn(int[] data, int target) {
 
         long start = System.currentTimeMillis();
+        List<Pair> pairs = new ArrayList<>();
 
         // Dado que no necesito la informacion acerca de los indices de donde provienen
         // los pares, no es necesario guardar la lista de indices en el hashMap, con la
-        // frecuencia es suficiente.
+        // frecuencia de los valores es suficiente.
 
-        List<Pair> pairs = new ArrayList<>();
         Map<Integer, Integer> frequencies = new HashMap<>();
 
         for (int i = 0; i < data.length; i++) {
@@ -35,8 +35,8 @@ public class SolutionHashMapFrequencies implements IProblemSolver {
             if (diffFreq != null) {
 
                 // Dado que voy a insertar en la solucion el par varias veces acorde a la frecuencia
-                // y sabiendo que siempre es el mismo par, no es necesario crear nuevas instancias
-                // del mismo.
+                //  de la diferencia y sabiendo que siempre es el mismo par, no es necesario crear
+                //  nuevas instancias del mismo.
 
                 Pair pair = new Pair(data[i], diff);
                 while (diffFreq > 0){

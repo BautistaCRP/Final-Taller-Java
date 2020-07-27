@@ -5,7 +5,7 @@ import com.bautistacarpintero.solutions.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class SizesBenchmark {
+public class TimesBenchmark {
 
     public static void main(String[] args) {
 
@@ -18,7 +18,12 @@ public class SizesBenchmark {
         long totalStart = System.currentTimeMillis();
 
         int[] problemSizes = new int[]{
-                50_000
+                50_000,
+                100_000,
+                250_000,
+                500_000,
+                1_000_000,
+                5_000_000
         };
 
         ArrayList<IProblemSolver> solvers = new ArrayList<>();
@@ -36,7 +41,7 @@ public class SizesBenchmark {
         solvers.add(new SolutionFastUtilsMapFrequencies());
         solverNames.add("FastUtilsMap");
 
-        Benchmarks.sizesBenchmark(100, 5, 5, problemSizes, solvers, solverNames);
+        Benchmarks.timesBenchmark(100, 5, 5, problemSizes, solvers, solverNames);
 
 
         System.out.println();

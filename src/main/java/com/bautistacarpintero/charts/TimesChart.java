@@ -16,11 +16,11 @@ import java.io.IOException;
 import static tech.tablesaw.aggregate.AggregateFunctions.median;
 
 
-public class SizesChart extends ApplicationFrame {
+public class TimesChart extends ApplicationFrame {
 
     private Table mediansTable;
 
-    public SizesChart(String applicationTitle, String chartTitle, Table mediansTable) {
+    public TimesChart(String applicationTitle, String chartTitle, Table mediansTable) {
         super(applicationTitle);
         this.mediansTable = mediansTable;
 
@@ -75,7 +75,7 @@ public class SizesChart extends ApplicationFrame {
     // TODO Ver si puedo poner dos graficos con las dos escalas
     public static void main(String[] args) {
         try {
-            Table sizesBenchmarkTable = Table.read().csv(RESOURCES_PATH + "sizesBenchmark.csv");
+            Table sizesBenchmarkTable = Table.read().csv(RESOURCES_PATH + "timesBenchmark.csv");
 
             Table mediansTable = sizesBenchmarkTable.summarize(
                     "HashMapIndexes",
@@ -88,7 +88,7 @@ public class SizesChart extends ApplicationFrame {
             System.out.println(mediansTable);
 
 
-            SizesChart chart = new SizesChart(
+            TimesChart chart = new TimesChart(
                     "Juan Bautista Carpintero - Final Taller Java",
                     "Medianas de los tiempos agrupados por size",
                     mediansTable);

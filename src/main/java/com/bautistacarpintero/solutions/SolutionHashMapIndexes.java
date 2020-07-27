@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SolutionHashMapIndexes implements IProblemSolver {
+    public class SolutionHashMapIndexes implements IProblemSolver {
 
     private long lastTime = 0;
 
@@ -22,7 +22,7 @@ public class SolutionHashMapIndexes implements IProblemSolver {
         List<Pair> pairs = new ArrayList<>();
 
         // Se crea un mapa con los valores de data[i]
-        // y una lista de las posiciones en las que se encuntra
+        // y una lista de las posiciones en las que se encuentra
         Map<Integer, List<Integer>> values = new HashMap<>(data.length);
 
 
@@ -30,12 +30,11 @@ public class SolutionHashMapIndexes implements IProblemSolver {
 
 
             // Se agrega el dato nuevo en las listas de indices
-            List<Integer> indexes = values.get(data[i]);
-
-            if (indexes != null) {
+            if (values.containsKey(data[i])) {
+                List<Integer> indexes = values.get(data[i]);
                 indexes.add(i);
             } else {
-                indexes = new ArrayList<>();
+                List<Integer> indexes = new ArrayList<>();
                 indexes.add(i);
                 values.put(data[i], indexes);
             }

@@ -15,11 +15,11 @@ public class Benchmarks {
 
     private static final String RESOURCES_PATH = "src/main/resources/";
 
-    public static void sizesBenchmark(int problems, int warmup, int executions, int[] problemSizes, List<IProblemSolver> solvers, List<String> solversNames) {
+    public static void timesBenchmark(int problems, int warmup, int executions, int[] problemSizes, List<IProblemSolver> solvers, List<String> solversNames) {
 
         try {
             BufferedWriter writer = new BufferedWriter(
-                    new FileWriter(RESOURCES_PATH + "sizesBenchmark.csv"));
+                    new FileWriter(RESOURCES_PATH + "timesBenchmark.csv"));
 
 
             String header = "Problem Size, Solutions";
