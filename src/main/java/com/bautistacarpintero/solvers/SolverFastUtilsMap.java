@@ -1,4 +1,4 @@
-package com.bautistacarpintero.solutions;
+package com.bautistacarpintero.solvers;
 
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
@@ -6,26 +6,17 @@ import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolutionFastUtilsMapFrequencies implements IProblemSolver {
+public class SolverFastUtilsMap extends Solver {
 
-    private long lastTime = 0;
 
     @Override
-    public List<Pair> isSumIn(int[] data, int target) {
-
-        long start = System.currentTimeMillis();
+    public List<Pair> solve(int[] data, int target) {
 
         List<Pair> pairs = new ArrayList<>();
         Int2IntMap frequencies = new Int2IntOpenHashMap();
 
 
         for (int i = 0; i < data.length; i++) {
-            Integer freq = frequencies.get(data[i]);
-
-            if (freq == null)
-                frequencies.put(data[i], 1);
-            else
-                frequencies.put(data[i], freq + 1);
 
             int diff = target - data[i];
 
@@ -39,15 +30,17 @@ public class SolutionFastUtilsMapFrequencies implements IProblemSolver {
                 }
 
             }
+
+
+            int freq = frequencies.get(data[i]);
+
+            if (freq == 0)
+                frequencies.put(data[i], 1);
+            else
+                frequencies.put(data[i], freq + 1);
         }
 
-        this.lastTime = System.currentTimeMillis() - start;
         return pairs;
-    }
-
-    @Override
-    public long getLastTime() {
-        return this.lastTime;
     }
 
 }
