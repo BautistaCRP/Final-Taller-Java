@@ -3,7 +3,6 @@ package com.bautistacarpintero.solvers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
 
 public class SolverBinarySearch extends Solver {
 
@@ -80,5 +79,6 @@ public class SolverBinarySearch extends Solver {
 
         return null;
     }
+
 
 }
