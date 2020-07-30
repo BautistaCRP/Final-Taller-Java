@@ -19,7 +19,7 @@ reimplemente medir el tiempo, que no debería ser responsabilidad de la solució
 
 TODO ------------------------------------------------------
 
-TODO Faltaría comparar la solución del binary search que estaba en los slides.
+TODO Faltaría comparar la solución del binary search que estaba en los slides. Almost Done -
 
 TODO Agregar conclusiones al informe.
 
