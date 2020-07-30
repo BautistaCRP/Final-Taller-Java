@@ -1,18 +1,16 @@
-package com.bautistacarpintero.solutions;
+package com.bautistacarpintero.solvers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SolutionHashMapFrequencies implements IProblemSolver {
+public class SolverHashMapFrequencies extends Solver {
 
-    private long lastTime = 0;
 
     @Override
-    public List<Pair> isSumIn(int[] data, int target) {
+    public List<Pair> solve(int[] data, int target) {
 
-        long start = System.currentTimeMillis();
         List<Pair> pairs = new ArrayList<>();
 
         // Dado que no necesito la informacion acerca de los indices de donde provienen
@@ -22,12 +20,6 @@ public class SolutionHashMapFrequencies implements IProblemSolver {
         Map<Integer, Integer> frequencies = new HashMap<>();
 
         for (int i = 0; i < data.length; i++) {
-            Integer freq = frequencies.get(data[i]);
-
-            if(freq == null)
-                frequencies.put(data[i],1);
-            else
-                frequencies.put(data[i],freq+1);
 
             int diff = target - data[i];
 
@@ -45,14 +37,15 @@ public class SolutionHashMapFrequencies implements IProblemSolver {
                 }
 
             }
+
+            Integer freq = frequencies.get(data[i]);
+            if(freq == null)
+                frequencies.put(data[i],1);
+            else
+                frequencies.put(data[i],freq+1);
         }
 
-        this.lastTime = System.currentTimeMillis() - start;
         return pairs;
     }
 
-    @Override
-    public long getLastTime() {
-        return this.lastTime;
-    }
 }

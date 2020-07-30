@@ -1,22 +1,14 @@
-package com.bautistacarpintero.solutions;
+package com.bautistacarpintero.solvers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-    public class SolutionHashMapIndexes implements IProblemSolver {
-
-    private long lastTime = 0;
-
-    public long getLastTime() {
-        return lastTime;
-    }
+public class SolverHashMapIndexes extends Solver {
 
     @Override
-    public List<Pair> isSumIn(int[] data, int target) {
-
-        long start = System.currentTimeMillis();
+    public List<Pair> solve(int[] data, int target) {
 
         // Se inicializa la lista de pares que va a ser retornada
         List<Pair> pairs = new ArrayList<>();
@@ -28,6 +20,16 @@ import java.util.Map;
 
         for (int i = 0; i < data.length; i++) {
 
+            // Es necesario buscar si esta el complemento para llegar al target
+
+            int diff = target - data[i];
+            if (values.containsKey(diff)) {
+                List<Integer> matchesIndexes = values.get(diff);
+
+                for (int mi : matchesIndexes) {
+                    pairs.add(new Pair(data[i], data[mi]));
+                }
+            }
 
             // Se agrega el dato nuevo en las listas de indices
             if (values.containsKey(data[i])) {
@@ -38,20 +40,7 @@ import java.util.Map;
                 indexes.add(i);
                 values.put(data[i], indexes);
             }
-
-
-            // Es necesario buscar si esta el complemento para llegar al target
-
-            int diff = target - data[i];
-            if (values.containsKey(diff)) {
-                List<Integer> matchesIndexes = values.get(diff);
-
-                for (int mi : matchesIndexes) {
-                    pairs.add(new Pair(data[i],data[mi]));
-                }
-            }
         }
-        this.lastTime = System.currentTimeMillis() - start;
         return pairs;
     }
 }

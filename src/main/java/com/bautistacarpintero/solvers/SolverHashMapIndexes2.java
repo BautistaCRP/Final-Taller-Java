@@ -1,36 +1,21 @@
-package com.bautistacarpintero.solutions;
+package com.bautistacarpintero.solvers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SolutionHashMapIndexes2 implements IProblemSolver {
-
-    private long lastTime = 0;
-
-    public long getLastTime() {
-        return lastTime;
-    }
+public class SolverHashMapIndexes2 extends Solver {
 
     @Override
-    public List<Pair> isSumIn(int[] data, int target) {
+    public List<Pair> solve(int[] data, int target) {
 
-        long start = System.currentTimeMillis();
 
         List<Pair> pairs = new ArrayList<>();
         Map<Integer, List<Integer>> values = new HashMap<>(data.length);
 
         for (int i = 0; i < data.length; i++) {
-            List<Integer> indexes = values.get(data[i]);
 
-            if (indexes != null) {
-                indexes.add(i);
-            } else {
-                indexes = new ArrayList<>();
-                indexes.add(i);
-                values.put(data[i], indexes);
-            }
 
             int diff = target - data[i];
 
@@ -61,8 +46,16 @@ public class SolutionHashMapIndexes2 implements IProblemSolver {
                     pairs.add(new Pair(data[i], diff));
                 }
             }
+
+            List<Integer> indexes = values.get(data[i]);
+            if (indexes != null) {
+                indexes.add(i);
+            } else {
+                indexes = new ArrayList<>();
+                indexes.add(i);
+                values.put(data[i], indexes);
+            }
         }
-        this.lastTime = System.currentTimeMillis() - start;
         return pairs;
     }
 }

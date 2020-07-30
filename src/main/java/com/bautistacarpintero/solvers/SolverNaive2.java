@@ -1,21 +1,13 @@
-package com.bautistacarpintero.solutions;
+package com.bautistacarpintero.solvers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 
-public class SolutionNaive2 implements IProblemSolver {
+public class SolverNaive2 extends Solver {
 
-    private long lastTime = 0;
-
-    public long getLastTime() {
-        return lastTime;
-    }
-
-    public List<Pair> isSumIn(int[] data, int target) {
-
-        long start = System.currentTimeMillis();
+    public List<Pair> solve(int[] data, int target) {
 
         List<Pair> pairs = new ArrayList<>();
 
@@ -25,7 +17,6 @@ public class SolutionNaive2 implements IProblemSolver {
                         .forEach(j -> pairs.add(new Pair(data[i], data[j])))
                 );
 
-        this.lastTime = System.currentTimeMillis() - start;
         return pairs;
     }
 
