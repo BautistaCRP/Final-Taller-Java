@@ -1,0 +1,28 @@
+
+Hola Bautista, enviamos algunas correcciones que deberías hacer al trabajo.
+
+Te pedimos que a más tardar entregues el Lunes 3 de agosto.
+
+TODO Todas las soluciones optimizadas fallan con el caso donde el target es par y está el número que es la mitad del target está en el arreglo.  - Done ✔
+Por ejemplo, arr: {2} Target: 4 genera un par, arr: {2, 2} Target: 4 genera tres.
+
+
+TODO (FastUtils) Usar int en vez de Integer - Done ✔
+
+TODO (FastUtils) No requiere discernible porque está buscando la frecuencia, con lo que si no está el valor asociado a la key el valor asociado sería 0.  - Done ✔
+
+TODO (FastUtils) Este cheque por null no tiene sentido, ya que NUNCA va a ser null. (fastUtils)  - Done ✔
+
+TODO (getLastTime) Ese método no debería ser responsabilidad de cada implementación. Deberías hacer un wrapper con esa responsabilidad que llame a la solución deseada. - Done ✔
+De esa manera, si en el futuro se agrega una nueva solución, no es necesario que el desarrollador
+reimplemente medir el tiempo, que no debería ser responsabilidad de la solución.
+
+TODO ------------------------------------------------------
+
+TODO Faltaría comparar la solución del binary search que estaba en los slides.
+
+TODO Agregar conclusiones al informe.
+
+
+
+Saludos
