@@ -1,6 +1,6 @@
 package com.bautistacarpintero.benchmarks;
 
-import com.bautistacarpintero.solutions.*;
+import com.bautistacarpintero.solvers.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,19 +26,19 @@ public class TimesBenchmark {
                 5_000_000
         };
 
-        ArrayList<IProblemSolver> solvers = new ArrayList<>();
+        ArrayList<Solver> solvers = new ArrayList<>();
         ArrayList<String> solverNames = new ArrayList<>();
 
-        solvers.add(new SolutionHashMapIndexes());
+        solvers.add(new SolverHashMapIndexes());
         solverNames.add("HashMapIndexes");
 
-        solvers.add(new SolutionHashMapIndexes2());
+        solvers.add(new SolverHashMapIndexes2());
         solverNames.add("HashMapIndexes2");
 
-        solvers.add(new SolutionHashMapFrequencies());
+        solvers.add(new SolverHashMapFrequencies());
         solverNames.add("HashMapFrequencies");
 
-        solvers.add(new SolutionFastUtilsMapFrequencies());
+        solvers.add(new SolverFastUtilsMap());
         solverNames.add("FastUtilsMap");
 
         Benchmarks.timesBenchmark(100, 5, 5, problemSizes, solvers, solverNames);

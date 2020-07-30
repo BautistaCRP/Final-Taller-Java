@@ -1,6 +1,7 @@
 package com.bautistacarpintero.benchmarks;
 
-import com.bautistacarpintero.solutions.*;
+import com.bautistacarpintero.solvers.IProblemSolver;
+import com.bautistacarpintero.solvers.Solver;
 import com.bautistacarpintero.utilities.ProblemGen;
 import com.bautistacarpintero.utilities.Ranking;
 import com.bautistacarpintero.utilities.RankingElem;
@@ -15,7 +16,7 @@ public class Benchmarks {
 
     private static final String RESOURCES_PATH = "src/main/resources/";
 
-    public static void timesBenchmark(int problems, int warmup, int executions, int[] problemSizes, List<IProblemSolver> solvers, List<String> solversNames) {
+    public static void timesBenchmark(int problems, int warmup, int executions, int[] problemSizes, List<Solver> solvers, List<String> solversNames) {
 
         try {
             BufferedWriter writer = new BufferedWriter(
@@ -89,7 +90,7 @@ public class Benchmarks {
                         System.out.println("Solutions: " + solutions);
 
                         for (int solverIndex = 0; solverIndex < solvers.size(); solverIndex++) {
-                            IProblemSolver solver = solvers.get(solverIndex);
+                            Solver solver = solvers.get(solverIndex);
                             solver.isSumIn(data,target);
                             System.gc();
 
@@ -164,7 +165,7 @@ public class Benchmarks {
 
 
 
-    public static void memBenchmark(int problems, int[] bounds, int size, int executions, List<IProblemSolver> solvers, List<String> solversNames) {
+    public static void memBenchmark(int problems, int[] bounds, int size, int executions, List<Solver> solvers, List<String> solversNames) {
         try {
             BufferedWriter writer = new BufferedWriter(
                     new FileWriter(RESOURCES_PATH + "memBenchmark.csv"));
