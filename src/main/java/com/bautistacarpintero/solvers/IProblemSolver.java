@@ -1,12 +1,10 @@
-package com.bautistacarpintero.solutions;
+package com.bautistacarpintero.solvers;
 
 import java.util.List;
 
 public interface IProblemSolver {
 
-    public List<Pair> isSumIn(int[] data, int target);
-
-    public long getLastTime();
+    List<Pair> isSumIn(int[] data, int target);
 
     public static class Pair implements Comparable<Pair>{
         private int i;
