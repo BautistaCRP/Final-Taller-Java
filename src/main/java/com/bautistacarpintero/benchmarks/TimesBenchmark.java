@@ -29,6 +29,9 @@ public class TimesBenchmark {
         ArrayList<Solver> solvers = new ArrayList<>();
         ArrayList<String> solverNames = new ArrayList<>();
 
+        solvers.add(new SolverBinarySearch());
+        solverNames.add("BinarySearch");
+
         solvers.add(new SolverHashMapIndexes());
         solverNames.add("HashMapIndexes");
 

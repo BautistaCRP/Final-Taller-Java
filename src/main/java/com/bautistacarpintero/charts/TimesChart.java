@@ -13,6 +13,7 @@ import tech.tablesaw.api.Table;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static tech.tablesaw.aggregate.AggregateFunctions.median;
 
@@ -49,28 +50,19 @@ public class TimesChart extends ApplicationFrame {
     private DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
+        List<String> colNames = mediansTable.columnNames();
+        colNames.remove("Problem Size");
+
         for (Row row : mediansTable) {
 
-            dataset.addValue(
-                    row.getDouble("Median [HashMapIndexes]"),
-                    "HashMapIndexes",
-                    new Integer(row.getInt("Problem Size")));
-
-
-            dataset.addValue(
-                    row.getDouble("Median [HashMapIndexes2]"),
-                    "HashMapIndexes2",
-                    new Integer(row.getInt("Problem Size")));
-
-            dataset.addValue(
-                    row.getDouble("Median [HashMapFrequencies]"),
-                    "HashMapFrequencies",
-                    new Integer(row.getInt("Problem Size")));
-
-            dataset.addValue(
-                    row.getDouble("Median [FastUtilsMap]"),
-                    "FastUtilsMap",
-                    new Integer(row.getInt("Problem Size")));
+            for(String colName : colNames){
+                String solverName = colName.replace("Median [","");
+                solverName = solverName.replace("]","");
+                dataset.addValue(
+                        row.getDouble(colName),
+                        solverName,
+                        new Integer(row.getInt("Problem Size")));
+            }
 
         }
 
@@ -92,14 +84,15 @@ public class TimesChart extends ApplicationFrame {
         }
 
         try {
-//            Table sizesBenchmarkTable = Table.read().csv(filePath);
-            Table sizesBenchmarkTable = Table.read().csv(RESOURCES_PATH + "timesBenchmark.csv");
+//            Table timesBenchmarkTable = Table.read().csv(filePath);
+            Table timesBenchmarkTable = Table.read().csv(RESOURCES_PATH + "timesBenchmark.csv");
 
-            Table mediansTable = sizesBenchmarkTable.summarize(
-                    "HashMapIndexes",
-                    "HashMapIndexes2",
-                    "HashMapFrequencies",
-                    "FastUtilsMap",
+            List<String> solverNames = timesBenchmarkTable.columnNames();
+            solverNames.remove("Problem Size");
+            solverNames.remove("Solutions");
+
+            Table mediansTable = timesBenchmarkTable.summarize(
+                    solverNames,
                     median)
                     .by("Problem Size");
 
@@ -110,7 +103,7 @@ public class TimesChart extends ApplicationFrame {
                     "Juan Bautista Carpintero - Final Taller Java",
                     "Medianas de los tiempos, agrupados por el tamaño de los problemas",
                     mediansTable,
-                    false);
+                    true);
 
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);

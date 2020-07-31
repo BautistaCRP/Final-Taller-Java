@@ -17,9 +17,10 @@ TODO (getLastTime) Ese método no debería ser responsabilidad de cada implement
 De esa manera, si en el futuro se agrega una nueva solución, no es necesario que el desarrollador
 reimplemente medir el tiempo, que no debería ser responsabilidad de la solución.
 
+TODO Faltaría comparar la solución del binary search que estaba en los slides. - Done ✔
+
 TODO ------------------------------------------------------
 
-TODO Faltaría comparar la solución del binary search que estaba en los slides. Almost Done -
 
 TODO Agregar conclusiones al informe.
 
