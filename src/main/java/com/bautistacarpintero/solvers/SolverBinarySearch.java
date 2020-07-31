@@ -15,9 +15,10 @@ public class SolverBinarySearch extends Solver {
             int diff = target - data[i];
             Pair intervalPair = binarySearchInterval(data, diff);
 
-            if (intervalPair != null) {
+            if (intervalPair != null)
                 // Solo voy a tener en cuenta las diferencias encontradas en posiciones
                 // anteriores a la actual, para descartar los pares simetricos
+
                 if (intervalPair.getI() < i) {
                     int infLimit = intervalPair.getI();
                     int supLimit = intervalPair.getJ();
@@ -29,8 +30,6 @@ public class SolverBinarySearch extends Solver {
                         pairs.add(pair);
                     }
                 }
-            }
-
         }
         return pairs;
     }

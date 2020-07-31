@@ -15,7 +15,6 @@ public class SolverFastUtilsMap extends Solver {
         List<Pair> pairs = new ArrayList<>();
         Int2IntMap frequencies = new Int2IntOpenHashMap();
 
-
         for (int i = 0; i < data.length; i++) {
 
             int diff = target - data[i];
@@ -28,9 +27,7 @@ public class SolverFastUtilsMap extends Solver {
                     pairs.add(pair);
                     diffFreq--;
                 }
-
             }
-
 
             int freq = frequencies.get(data[i]);
 
