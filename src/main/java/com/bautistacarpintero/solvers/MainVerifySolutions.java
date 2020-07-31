@@ -1,7 +1,6 @@
-package com.bautistacarpintero.charts;
+package com.bautistacarpintero.solvers;
 
 import com.bautistacarpintero.solvers.IProblemSolver.Pair;
-import com.bautistacarpintero.solvers.*;
 import com.bautistacarpintero.utilities.ProblemGen;
 
 import java.util.ArrayList;
